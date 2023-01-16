@@ -9,10 +9,14 @@
 	</div>
 	
 	<%-- 로그인 정보 : 로그인이 되었을 때만 노출 --%>
-	<c:if test="${not empty userId}">
-		<div class="mr-4">
+	<div class="mr-4">
+		<c:if test="${not empty userId}">
 			<span>${userName}님 안녕하세요</span>
 			<a href="/user/sign_out" class="ml-3 font-weight-bold">로그아웃</a>
-		</div>
-	</c:if>
+		</c:if>
+		
+		<c:if test="${empty userId}">
+			<a href="/user/sign_in_view" class="font-weight-bold">로그인</a>
+		</c:if>
+	</div>
 </div>
