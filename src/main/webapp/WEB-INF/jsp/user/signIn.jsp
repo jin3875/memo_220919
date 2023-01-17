@@ -3,7 +3,7 @@
 
 <div class="d-flex justify-content-center">
 	<div class="login-box">
-		<h1 class="mt-3 mb-3">로그인</h1>
+		<h1 class="mb-3">로그인</h1>
 		<form id="loginForm" action="/user/sign_in" method="post">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">

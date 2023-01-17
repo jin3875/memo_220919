@@ -3,7 +3,7 @@
 
 <div class="d-flex justify-content-center">
 	<div class="sign-up-box">
-		<h1 class="mt-3 mb-3">회원가입</h1>
+		<h1 class="mb-3">회원가입</h1>
 		<form id="signUpForm" method="post" action="/user/sign_up">
 			<table class="sign-up-table table table-bordered">
 				<tr>
