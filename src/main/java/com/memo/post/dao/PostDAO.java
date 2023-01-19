@@ -20,5 +20,9 @@ public interface PostDAO {
 			@Param("imagePath") String imagePath);
 	
 	public List<Post> selectPostListByUserId(int userId);
+	
+	public Post selectPostByPostIdUserId(
+			@Param("postId") int postId,
+			@Param("userId") int userId);
 
 }
