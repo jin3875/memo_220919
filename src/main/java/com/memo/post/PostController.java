@@ -21,7 +21,12 @@ public class PostController {
 	@Autowired
 	private PostBO postBO;
 	
-	// 글 목록 화면
+	/**
+	 * 글 목록 화면
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/post_list_view")
 	public String postListView(Model model, HttpSession session) {
 		Integer userId = (Integer)session.getAttribute("userId");
@@ -48,6 +53,13 @@ public class PostController {
 		return "template/layout";
 	}
 	
+	/**
+	 * 글 상세/수정 화면
+	 * @param postId
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/post_detail_view")
 	public String postDetailView(
 			@RequestParam("postId") int postId,
