@@ -6,11 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component // 일반적인 스프링 빈
 public class FileManagerService {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	// 실제 이미지가 저장될 경로(서버) -> 경로 뒤에 "/" 붙이기
 	// 세팅 1)
@@ -43,6 +47,30 @@ public class FileManagerService {
 		// 파일 업로드 성공했으면 이미지 url path를 리턴한다.
 		// http://localhost/images/유저아이디_1620451673/파일이름.확장자
 		return "/images/" + directoryName + file.getOriginalFilename();
+	}
+	
+	public void deleteFile(String imagePath) { // imagePath : /images/유저아이디_1620451673/파일이름.확장자
+		// ...\\images/ + /images/... -> imagePath에 있는 겹치는 /images/ 구문 제거
+		Path path = Paths.get(FILE_UPLOAD_PATH + imagePath.replace("/images/", ""));
+		if (Files.exists(path)) {
+			// 이미지 삭제
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				logger.error("[이미지 삭제] 이미지 삭제 실패. imagePath : {}", imagePath);
+			}
+			
+			// 디렉토리(폴더) 삭제
+			path = path.getParent();
+			
+			if (Files.exists(path)) {
+				try {
+					Files.delete(path);
+				} catch (IOException e) {
+					logger.error("[이미지 삭제] 디렉토리 삭제 실패. imagePath : {}", imagePath);
+				}
+			}
+		}
 	}
 
 }
