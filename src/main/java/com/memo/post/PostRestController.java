@@ -42,7 +42,7 @@ public class PostRestController {
 		int userId = (int)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
-		// db insert
+		// 글 추가
 		int rowCount = postBO.addPost(userId, userLoginId, subject, content, file);
 		
 		if (rowCount > 0) {
@@ -69,7 +69,7 @@ public class PostRestController {
 		int userId = (int)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
-		// db update
+		// 글 수정
 		postBO.updatePost(userId, userLoginId, postId, subject, content, file);
 		
 		result.put("code", 1);

@@ -7,6 +7,7 @@
 	<div class="w-50">
 		<h1 class="mb-3">글 목록</h1>
 		
+		<%-- 글 목록 테이블 --%>
 		<table class="table">
 			<thead>
 				<tr>

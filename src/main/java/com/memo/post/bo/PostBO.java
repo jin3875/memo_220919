@@ -34,7 +34,6 @@ public class PostBO {
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 		}
 		
-		// dao insert
 		return postDAO.insertPost(userId, subject, content, imagePath);
 	}
 	
@@ -63,14 +62,15 @@ public class PostBO {
 			}
 		}
 		
-		// db update
 		postDAO.updatePostByPostIdUserId(postId, userId, subject, content, imagePath);
 	}
 	
+	// userId의 글 목록
 	public List<Post> getPostListByUserId(int userId) {
 		return postDAO.selectPostListByUserId(userId);
 	}
 	
+	// userId의 postId 글
 	public Post getPostByPostIdUserId(int postId, int userId) {
 		return postDAO.selectPostByPostIdUserId(postId, userId);
 	}

@@ -40,13 +40,12 @@ public class UserController {
 	 */
 	@GetMapping("/sign_out")
 	public String signOut(HttpSession session) {
-		// 로그아웃 => 세션에 있는 것들을 모두 비운다.
+		// 로그아웃 => 세션에 있는 것 모두 비우기
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
 		session.removeAttribute("userName");
 		
-		// 로그아웃 후 로그인 페이지로 리다이렉트
-		return "redirect:/user/sign_in_view";
+		return "redirect:/user/sign_in_view"; // 로그아웃 후 로그인 페이지로 리다이렉트
 	}
 
 }

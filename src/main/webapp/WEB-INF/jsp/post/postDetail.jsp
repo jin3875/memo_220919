@@ -55,16 +55,13 @@
 				}
 			}
 			
-			// 폼태그를 자바스크립트에서 만든다
 			let formData = new FormData();
 			formData.append("postId", postId);
 			formData.append("subject", subject);
 			formData.append("content", content);
 			formData.append("file", $('#file')[0].files[0]);
 			
-			// AJAX -> 서버 통신
 			$.ajax({
-				// request
 				type:"PUT"
 				, url:"/post/update"
 				, data:formData
@@ -73,7 +70,6 @@
 				, processData:false
 				, contentType:false
 				
-				// response
 				, success:function(data) {
 					if (data.code == 1) {
 						alert("메모가 수정되었습니다");

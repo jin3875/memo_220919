@@ -34,7 +34,7 @@
 			$('#content').val('');
 		});
 		
-		// 글 저장
+		// 저장 버튼 클릭 -> 글 저장
 		$('#postCreateBtn').on('click', function() {
 			let subject = $('#subject').val().trim();
 			let content = $('#content').val();
@@ -44,12 +44,10 @@
 				return;
 			}
 			
-			let file = $('#file').val();
-			// alert(file); // C:\fakepath\파일이름.확장자
+			let file = $('#file').val(); // C:\fakepath\파일이름.확장자
 			
 			// 파일이 업로드된 경우에만 확장자 체크
 			if (file != '') {
-				// alert(file.split(".").pop().toLowerCase());
 				let ext = file.split(".").pop().toLowerCase();
 				
 				if ($.inArray(ext, ['jpg', 'jpeg', 'png', 'gif']) == -1) {
@@ -59,18 +57,14 @@
 				}
 			}
 			
-			// 서버 - AJAX
-			
-			// 이미지를 업로드할 때는 form태그가 있어야 한다. (자바스크립트에서 만듦)
-			// append로 넣는 값은 form태그의 name으로 넣는 것과 같다. (request parameter)
+			// 이미지를 업로드할 때 -> form태그 (자바스크립트에서 만듦)
+			// append로 넣는 값 = form태그의 name으로 넣는 것 (request parameter)
 			let formData = new FormData();
 			formData.append("subject", subject);
 			formData.append("content", content);
 			formData.append("file", $('#file')[0].files[0]);
 			
-			// AJAX 통신으로 formData에 있는 데이터 전송
 			$.ajax({
-				// request
 				type:"POST"
 				, url:"/post/create"
 				, data:formData // form 객체를 통째로
@@ -79,14 +73,11 @@
 				, processData:false
 				, contentType:false
 				
-				// response
 				, success:function(data) {
 					if (data.code == 1) {
-						// 성공
 						alert("메모가 저장되었습니다");
 						location.href = "/post/post_list_view";
 					} else {
-						// 실패
 						alert(data.errorMessage);
 					}
 				}

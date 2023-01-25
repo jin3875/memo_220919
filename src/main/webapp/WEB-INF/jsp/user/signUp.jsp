@@ -4,6 +4,8 @@
 <div class="d-flex justify-content-center">
 	<div class="sign-up-box">
 		<h1 class="mb-3">회원가입</h1>
+		
+		<%-- 회원가입 박스 --%>
 		<form id="signUpForm" method="post" action="/user/sign_up">
 			<table class="sign-up-table table table-bordered">
 				<tr>
@@ -46,38 +48,30 @@
 	$(document).ready(function() {
 		// 중복확인 버튼 클릭
 		$('#loginIdCheckBtn').on('click', function() {
-			// 초기화
-			$('#idCheckLength').addClass('d-none'); // 경고문구 숨김
-			$('#idCheckDuplicated').addClass('d-none'); // 경고문구 숨김
-			$('#idCheckOk').addClass('d-none'); // 경고문구 숨김
+			$('#idCheckLength').addClass('d-none');
+			$('#idCheckDuplicated').addClass('d-none');
+			$('#idCheckOk').addClass('d-none');
 			
 			let loginId = $('input[name=loginId]').val().trim();
 			
 			if (loginId.length < 4) {
-				$('#idCheckLength').removeClass('d-none'); // 경고문구 노출
+				$('#idCheckLength').removeClass('d-none');
 				return;
 			}
 			
-			// AJAX 통신 - 중복 확인
 			$.ajax({
-				// request
 				// type 생략 -> GET
 				url:"/user/is_duplicated_id"
 				, data:{"loginId":loginId}
 				
-				// response
 				, success:function(data) {
 					if (data.code == 1) {
-						// 성공
-						if (data.result) {
-							// 중복
+						if (data.result) { // 중복
 							$('#idCheckDuplicated').removeClass('d-none');
-						} else {
-							// 사용 가능
+						} else { // 사용 가능
 							$('#idCheckOk').removeClass('d-none');
 						}
 					} else {
-						// 실패
 						alert(data.errorMessage);
 					}
 				}
@@ -89,9 +83,8 @@
 		
 		// 회원가입
 		$('#signUpForm').on('submit', function(e) {
-			e.preventDefault(); // submit 기능 중단
+			e.preventDefault();
 			
-			// validation
 			let loginId = $('#loginId').val().trim();
 			let password = $('#password').val();
 			let confirmPassword = $('#confirmPassword').val();
@@ -103,7 +96,6 @@
 				return false;
 			}
 			
-			// 아이디 중복확인 완료됐는지 확인
 			if ($('#idCheckOk').hasClass('d-none')) {
 				alert("아이디 중복확인을 다시 해주세요");
 				return false;
@@ -142,11 +134,9 @@
 			.done(function(data) {
 				// response
 				if (data.code == 1) {
-					// 성공
 					alert("가입을 환영합니다! 로그인 해주세요");
 					location.href = "/user/sign_in_view";
 				} else {
-					// 실패
 					alert(data.errorMessage);
 				}
 			});

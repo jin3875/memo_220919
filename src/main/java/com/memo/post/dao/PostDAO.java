@@ -13,23 +13,27 @@ public interface PostDAO {
 	
 	public List<Map<String, Object>> selectPostListTEST();
 	
+	// 글 추가
 	public int insertPost(
 			@Param("userId") int userId,
 			@Param("subject") String subject,
 			@Param("content") String content,
 			@Param("imagePath") String imagePath);
 	
-	public List<Post> selectPostListByUserId(int userId);
-	
-	public Post selectPostByPostIdUserId(
-			@Param("postId") int postId,
-			@Param("userId") int userId);
-	
+	// 글 수정
 	public void updatePostByPostIdUserId(
 			@Param("postId") int postId,
 			@Param("userId") int userId,
 			@Param("subject") String subject,
 			@Param("content") String content,
 			@Param("imagePath") String imagePath);
+	
+	// userId의 글 목록
+	public List<Post> selectPostListByUserId(int userId);
+	
+	// userId의 postId 글
+	public Post selectPostByPostIdUserId(
+			@Param("postId") int postId,
+			@Param("userId") int userId);
 
 }

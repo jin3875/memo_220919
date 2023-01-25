@@ -35,6 +35,7 @@ public class PostController {
 			return "redirect:/user/sign_in_view";
 		}
 		
+		// userId의 글 목록
 		List<Post> postList = postBO.getPostListByUserId(userId);
 		model.addAttribute("postList", postList);
 		
@@ -72,7 +73,7 @@ public class PostController {
 			return "redirect:/user/sign_in_view";
 		}
 		
-		// DB select by userId, postId
+		// userId의 postId 글
 		Post post = postBO.getPostByPostIdUserId(postId, userId);
 		model.addAttribute("post", post);
 		

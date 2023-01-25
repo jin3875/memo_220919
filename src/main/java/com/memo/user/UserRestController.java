@@ -36,6 +36,7 @@ public class UserRestController {
 		boolean isDuplicated = false;
 		
 		try {
+			// loginId 존재 유무
 			isDuplicated = userBO.existLoginId(loginId);
 		} catch(Exception e) {
 			result.put("code", 500);
@@ -76,6 +77,7 @@ public class UserRestController {
 		// 비밀번호 해싱 (hashing) - md5
 		String hashedPassword = EncryptUtils.md5(password);
 		
+		// 유저 추가
 		userBO.addUser(loginId, hashedPassword, name, email);
 		result.put("code", 1);
 		result.put("result", "성공");
@@ -102,6 +104,7 @@ public class UserRestController {
 		// 비밀번호 해싱
 		String hashedPassword = EncryptUtils.md5(password);
 		
+		// loginId와 password로 유저 select
 		User user = userBO.getUserByLoginIdPassword(loginId, hashedPassword);
 		
 		if (user != null) {
