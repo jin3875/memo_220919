@@ -52,7 +52,7 @@
 			$.post(url, params) // request
 			.done(function(data) { // response
 				if (data.code == 1) {
-					location.href = "/post/post_list_view"; // 글 목록으로 이동
+					location.href = "/post/post_list_view";
 				} else {
 					alert(data.errorMessage);
 				}

@@ -23,18 +23,18 @@
 
 <script>
 	$(document).ready(function() {
-		// 목록 버튼 클릭 -> 글 목록
+		// 목록 버튼
 		$('#postListBtn').on('click', function() {
 			location.href = "/post/post_list_view";
 		});
 		
-		// 모두 지우기 버튼 클릭 -> 제목, 글 내용 지우기
+		// 모두 지우기 버튼
 		$('#clearBtn').on('click', function() {
 			$('#subject').val('');
 			$('#content').val('');
 		});
 		
-		// 저장 버튼 클릭 -> 글 저장
+		// 저장 버튼
 		$('#postCreateBtn').on('click', function() {
 			let subject = $('#subject').val().trim();
 			let content = $('#content').val();
@@ -46,7 +46,7 @@
 			
 			let file = $('#file').val(); // C:\fakepath\파일이름.확장자
 			
-			// 파일이 업로드된 경우에만 확장자 체크
+			// 확장자 체크
 			if (file != '') {
 				let ext = file.split(".").pop().toLowerCase();
 				

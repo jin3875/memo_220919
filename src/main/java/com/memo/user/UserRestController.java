@@ -112,7 +112,7 @@ public class UserRestController {
 			result.put("code", 1);
 			result.put("result", "성공");
 			
-			// 세션에 유저 정보를 담는다 (로그인 상태 유지)
+			// 세션에 유저 정보 담기 (로그인 상태 유지)
 //			HttpSession session = request.getSession(); // 1)
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userLoginId", user.getLoginId());

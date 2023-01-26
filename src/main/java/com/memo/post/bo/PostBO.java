@@ -26,11 +26,10 @@ public class PostBO {
 	
 	// 글 추가
 	public int addPost(int userId, String userLoginId, String subject, String content, MultipartFile file) {
-		// 파일 업로드 -> 경로
+		// 파일 업로드
 		String imagePath = null;
 		
 		if (file != null) {
-			// 파일이 있을 때만 업로드 -> 이미지 경로를 얻어냄
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 		}
 		
@@ -39,7 +38,7 @@ public class PostBO {
 	
 	// 글 수정
 	public void updatePost(int userId, String userLoginId, int postId, String subject, String content, MultipartFile file) {
-		// 기존 글 가져온다 (이미지가 교체될 때 기존 이미지 제거를 위해)
+		// 기존 글 (이미지가 교체될 때 기존 이미지 제거를 위해)
 		Post post = getPostByPostIdUserId(postId, userId);
 		
 		if (post == null) {
@@ -47,17 +46,15 @@ public class PostBO {
 			return;
 		}
 		
-		// 이미지가 비어있지 않다면 업로드 후 imagePath -> 업로드가 성공하면 기존 이미지 제거
+		// 파일 업로드
 		String imagePath = null;
 		
 		if (file != null) {
-			// 업로드
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 			
-			// 업로드 성공하면 기존 이미지 제거 -> 업로드가 실패할 수 있으므로 업로드가 성공한 후 제거
-			// imagePath가 null이 아니고, 기존 글의 imagePath가 null이 아닐 경우
+			// 기존 이미지 파일 제거 - 업로드가 실패할 수 있으므로 업로드가 성공한 후 제거
+			// imagePath가 null이 아니고(업로드 성공), 기존 글의 imagePath가 null이 아닐 경우
 			if (imagePath != null && post.getImagePath() != null) {
-				// 이미지 제거
 				fileManagerService.deleteFile(post.getImagePath());
 			}
 		}
@@ -67,7 +64,7 @@ public class PostBO {
 	
 	// 글 삭제
 	public int deletePostByPostIdUserId(int postId, int userId) {
-		// 기존 글 가져오기
+		// 기존 글
 		Post post = getPostByPostIdUserId(postId, userId);
 		
 		if (post == null) {
@@ -75,7 +72,7 @@ public class PostBO {
 			return 0;
 		}
 		
-		// 업로드 되었던 이미지 있으면 파일 삭제
+		// 이미지 파일 제거
 		if (post.getImagePath() != null) {
 			fileManagerService.deleteFile(post.getImagePath());
 		}

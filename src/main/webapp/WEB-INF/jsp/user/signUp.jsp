@@ -46,7 +46,7 @@
 
 <script>
 	$(document).ready(function() {
-		// 중복확인 버튼 클릭
+		// 중복확인 버튼
 		$('#loginIdCheckBtn').on('click', function() {
 			$('#idCheckLength').addClass('d-none');
 			$('#idCheckDuplicated').addClass('d-none');
@@ -131,8 +131,7 @@
 			console.log(params);
 			
 			$.post(url, params) // request
-			.done(function(data) {
-				// response
+			.done(function(data) { // response
 				if (data.code == 1) {
 					alert("가입을 환영합니다! 로그인 해주세요");
 					location.href = "/user/sign_in_view";

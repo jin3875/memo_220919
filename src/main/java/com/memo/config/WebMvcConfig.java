@@ -12,8 +12,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry
-		.addResourceHandler("/images/**") // 웹 이미지 주소 -> http://localhost/images/유저아이디_1620451673/파일이름.확장자
-		.addResourceLocations("file:///" + FileManagerService.FILE_UPLOAD_PATH); // 실제 파일 위치
+		.addResourceHandler("/images/**")
+		.addResourceLocations("file:///" + FileManagerService.FILE_UPLOAD_PATH);
 	}
 
 }

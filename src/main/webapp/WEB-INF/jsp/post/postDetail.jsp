@@ -32,7 +32,7 @@
 
 <script>
 	$(document).ready(function() {
-		// 수정 버튼 클릭
+		// 수정 버튼
 		$('#postUpdateBtn').on('click', function() {
 			let postId = $(this).data('post-id');
 			let subject = $('#subject').val().trim();
@@ -44,7 +44,7 @@
 				return;
 			}
 			
-			// 파일이 업로드된 경우 확장자 체크
+			// 확장자 체크
 			if (file != '') {
 				let ext = file.split(".").pop().toLowerCase();
 				
@@ -84,7 +84,7 @@
 			});
 		});
 		
-		// 삭제 버튼 클릭
+		// 삭제 버튼
 		$('#postDeleteBtn').on('click', function() {
 			let postId = $(this).data('post-id');
 			
