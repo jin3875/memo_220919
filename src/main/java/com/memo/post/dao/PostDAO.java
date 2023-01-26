@@ -28,6 +28,11 @@ public interface PostDAO {
 			@Param("content") String content,
 			@Param("imagePath") String imagePath);
 	
+	// 글 삭제
+	public int deletePostByPostIdUserId(
+			@Param("postId") int postId,
+			@Param("userId") int userId);
+	
 	// userId의 글 목록
 	public List<Post> selectPostListByUserId(int userId);
 	

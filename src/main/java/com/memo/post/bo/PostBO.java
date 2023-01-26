@@ -65,6 +65,24 @@ public class PostBO {
 		postDAO.updatePostByPostIdUserId(postId, userId, subject, content, imagePath);
 	}
 	
+	// 글 삭제
+	public int deletePostByPostIdUserId(int postId, int userId) {
+		// 기존 글 가져오기
+		Post post = getPostByPostIdUserId(postId, userId);
+		
+		if (post == null) {
+			logger.warn("[글 삭제] post is null. postId : {}, userId : {}", postId, userId);
+			return 0;
+		}
+		
+		// 업로드 되었던 이미지 있으면 파일 삭제
+		if (post.getImagePath() != null) {
+			fileManagerService.deleteFile(post.getImagePath());
+		}
+		
+		return postDAO.deletePostByPostIdUserId(postId, userId);
+	}
+	
 	// userId의 글 목록
 	public List<Post> getPostListByUserId(int userId) {
 		return postDAO.selectPostListByUserId(userId);
