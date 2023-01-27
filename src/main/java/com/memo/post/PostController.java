@@ -36,11 +36,7 @@ public class PostController {
 			Model model,
 			HttpSession session
 	) {
-		Integer userId = (Integer)session.getAttribute("userId");
-		
-		if (userId == null) {
-			return "redirect:/user/sign_in_view";
-		}
+		int userId = (int)session.getAttribute("userId");
 		
 		// userId 글 목록
 		List<Post> postList = postBO.getPostListByUserId(userId, prevIdParam, nextIdParam);
@@ -95,11 +91,7 @@ public class PostController {
 			HttpSession session,
 			Model model
 	) {
-		Integer userId = (Integer)session.getAttribute("userId");
-		
-		if (userId == null) {
-			return "redirect:/user/sign_in_view";
-		}
+		int userId = (int)session.getAttribute("userId");
 		
 		// userId의 postId 글
 		Post post = postBO.getPostByPostIdUserId(postId, userId);
