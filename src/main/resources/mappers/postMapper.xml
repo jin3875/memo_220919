@@ -43,7 +43,7 @@
 			
 			<!-- imagePath가 있을 때만 수정 -->
 			<if test="imagePath != null">
-				,`imagePath` = #{imagePath}
+			,`imagePath` = #{imagePath}
 			</if>
 		WHERE
 			`id` = #{postId}
@@ -60,8 +60,8 @@
 			AND `userId` = #{userId}
 	</delete>
 	
-	<!-- userId의 글 목록 -->
-	<select id="selectPostListByUserId" parameterType="int" resultType="com.memo.post.model.Post">
+	<!-- userId 글 목록 -->
+	<select id="selectPostListByUserId" parameterType="map" resultType="com.memo.post.model.Post">
 		SELECT
 			`id`
 			,`userId`
@@ -74,7 +74,38 @@
 			`post`
 		WHERE
 			`userId` = #{userId}
+		
+		<if test="direction == null">
 		ORDER BY `id` DESC
+		</if>
+		
+		<if test="direction == 'next'">
+			<![CDATA[
+			AND `id` < #{standardId}
+			]]>
+		ORDER BY `id` DESC
+		</if>
+		
+		<if test="direction == 'prev'">
+			<![CDATA[
+			AND `id` > #{standardId}
+			]]>
+		ORDER BY `id`
+		</if>
+		
+		LIMIT ${limit}
+	</select>
+	
+	<!-- 가장 크거나 가장 작은 postId -->
+	<select id="selectPostIdByUserIdSort" parameterType="map" resultType="int">
+		SELECT
+			`id`
+		FROM
+			`post`
+		WHERE
+			`userId` = #{userId}
+		ORDER BY `id` ${sort}
+		LIMIT 1
 	</select>
 	
 	<!-- userId의 postId 글 -->

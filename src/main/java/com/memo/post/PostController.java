@@ -23,20 +23,48 @@ public class PostController {
 	
 	/**
 	 * 글 목록 화면
+	 * @param prevIdParam
+	 * @param nextIdParam
 	 * @param model
 	 * @param session
 	 * @return
 	 */
 	@GetMapping("/post_list_view")
-	public String postListView(Model model, HttpSession session) {
+	public String postListView(
+			@RequestParam(value="prevId", required=false) Integer prevIdParam,
+			@RequestParam(value="nextId", required=false) Integer nextIdParam,
+			Model model,
+			HttpSession session
+	) {
 		Integer userId = (Integer)session.getAttribute("userId");
 		
 		if (userId == null) {
 			return "redirect:/user/sign_in_view";
 		}
 		
-		// userId의 글 목록
-		List<Post> postList = postBO.getPostListByUserId(userId);
+		// userId 글 목록
+		List<Post> postList = postBO.getPostListByUserId(userId, prevIdParam, nextIdParam);
+		
+		int prevId = 0;
+		int nextId = 0;
+		
+		if (postList.isEmpty() == false) {
+			prevId = postList.get(0).getId();
+			nextId = postList.get(postList.size() - 1).getId();
+			
+			// 이전 방향 마지막 페이지인지 boolean
+			if (postBO.isPrevLastPage(prevId, userId)) {
+				prevId = 0;
+			}
+			
+			// 다음 방향 마지막 페이지인지 boolean
+			if (postBO.isNextLastPage(nextId, userId)) {
+				nextId = 0;
+			}
+		}
+		
+		model.addAttribute("prevId", prevId);
+		model.addAttribute("nextId", nextId);
 		model.addAttribute("postList", postList);
 		
 		model.addAttribute("viewName", "post/postList");

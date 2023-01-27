@@ -1,5 +1,6 @@
 package com.memo.post.bo;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ public class PostBO {
 	
 //	private Logger logger = LoggerFactory.getLogger(PostBO.class); // 1)
 	private Logger logger = LoggerFactory.getLogger(this.getClass()); // 2)
+	
+	private static final int POST_MAX_SIZE = 3;
 	
 	@Autowired
 	private PostDAO postDAO;
@@ -80,9 +83,47 @@ public class PostBO {
 		return postDAO.deletePostByPostIdUserId(postId, userId);
 	}
 	
-	// userId의 글 목록
-	public List<Post> getPostListByUserId(int userId) {
-		return postDAO.selectPostListByUserId(userId);
+	// userId 글 목록
+	public List<Post> getPostListByUserId(int userId, Integer prevId, Integer nextId) {
+		// ex) 7 6 5 페이지
+		// 1) 이전 : 7보다 큰 3개 ASC (8 9 10) => List reverse (10 9 8)
+		// 2) 다음 : 5보다 작은 3개 DESC (4 3 2)
+		// 3) 첫 페이지 (이전, 다음 없음) : DESC 3개
+		
+		String direction = null; // 방향
+		Integer standardId = null; // 기준 postId
+		
+		if (prevId != null) {
+			// 이전
+			direction = "prev";
+			standardId = prevId;
+			
+			List<Post> postList = postDAO.selectPostListByUserId(userId, direction, standardId, POST_MAX_SIZE);
+			Collections.reverse(postList);
+			return postList;
+		} else if (nextId != null) {
+			// 다음
+			direction = "next";
+			standardId = nextId;
+		}
+		
+		return postDAO.selectPostListByUserId(userId, direction, standardId, POST_MAX_SIZE);
+	}
+	
+	// 이전 방향 마지막 페이지인지 boolean
+	public boolean isPrevLastPage(int prevId, int userId) {
+		// 가장 큰 postId
+		int maxPostId = postDAO.selectPostIdByUserIdSort(userId, "DESC");
+		
+		return maxPostId == prevId ? true : false;
+	}
+	
+	// 다음 방향 마지막 페이지인지 boolean
+	public boolean isNextLastPage(int nextId, int userId) {
+		// 가장 작은 postId
+		int maxPostId = postDAO.selectPostIdByUserIdSort(userId, "ASC");
+		
+		return maxPostId == nextId ? true : false;
 	}
 	
 	// userId의 postId 글

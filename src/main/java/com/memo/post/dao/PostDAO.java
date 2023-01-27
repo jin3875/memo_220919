@@ -33,8 +33,17 @@ public interface PostDAO {
 			@Param("postId") int postId,
 			@Param("userId") int userId);
 	
-	// userId의 글 목록
-	public List<Post> selectPostListByUserId(int userId);
+	// userId 글 목록
+	public List<Post> selectPostListByUserId(
+			@Param("userId") int userId,
+			@Param("direction") String direction,
+			@Param("standardId") Integer standardId,
+			@Param("limit") int limit);
+	
+	// 가장 크거나 가장 작은 postId
+	public int selectPostIdByUserIdSort(
+			@Param("userId") int userId,
+			@Param("sort") String sort);
 	
 	// userId의 postId 글
 	public Post selectPostByPostIdUserId(
