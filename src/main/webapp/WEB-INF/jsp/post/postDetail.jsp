@@ -44,13 +44,12 @@
 				return;
 			}
 			
-			// 확장자 체크
 			if (file != '') {
 				let ext = file.split(".").pop().toLowerCase();
 				
 				if ($.inArray(ext, ['jpg', 'jpeg', 'png', 'gif']) == -1) {
 					alert("이미지 파일만 업로드 할 수 있습니다");
-					$('#file').val(''); // 파일 비우기
+					$('#file').val('');
 					return;
 				}
 			}
@@ -65,7 +64,7 @@
 				type:"PUT"
 				, url:"/post/update"
 				, data:formData
-				// 파일 업로드를 위한 필수 설정
+				// 파일 업로드 설정
 				, enctype:"multipart/form-data"
 				, processData:false
 				, contentType:false

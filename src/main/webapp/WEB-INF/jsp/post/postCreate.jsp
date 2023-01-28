@@ -44,21 +44,18 @@
 				return;
 			}
 			
-			let file = $('#file').val(); // C:\fakepath\파일이름.확장자
+			let file = $('#file').val();
 			
-			// 확장자 체크
 			if (file != '') {
 				let ext = file.split(".").pop().toLowerCase();
 				
 				if ($.inArray(ext, ['jpg', 'jpeg', 'png', 'gif']) == -1) {
 					alert("이미지 파일만 업로드 할 수 있습니다");
-					$('#file').val(''); // 파일 비우기
+					$('#file').val('');
 					return;
 				}
 			}
 			
-			// 이미지를 업로드할 때 -> form태그 (자바스크립트에서 만듦)
-			// append로 넣는 값 = form태그의 name으로 넣는 것 (request parameter)
 			let formData = new FormData();
 			formData.append("subject", subject);
 			formData.append("content", content);
@@ -67,8 +64,8 @@
 			$.ajax({
 				type:"POST"
 				, url:"/post/create"
-				, data:formData // form 객체를 통째로
-				// 파일 업로드를 위한 필수 설정
+				, data:formData
+				// 파일 업로드 설정
 				, enctype:"multipart/form-data"
 				, processData:false
 				, contentType:false

@@ -16,8 +16,7 @@ import com.memo.post.model.Post;
 @Service
 public class PostBO {
 	
-//	private Logger logger = LoggerFactory.getLogger(PostBO.class); // 1)
-	private Logger logger = LoggerFactory.getLogger(this.getClass()); // 2)
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private static final int POST_MAX_SIZE = 3;
 	
@@ -29,7 +28,6 @@ public class PostBO {
 	
 	// 글 추가
 	public int addPost(int userId, String userLoginId, String subject, String content, MultipartFile file) {
-		// 파일 업로드
 		String imagePath = null;
 		
 		if (file != null) {
@@ -41,7 +39,7 @@ public class PostBO {
 	
 	// 글 수정
 	public void updatePost(int userId, String userLoginId, int postId, String subject, String content, MultipartFile file) {
-		// 기존 글 (이미지가 교체될 때 기존 이미지 제거를 위해)
+		// 기존 글
 		Post post = getPostByPostIdUserId(postId, userId);
 		
 		if (post == null) {
@@ -49,14 +47,12 @@ public class PostBO {
 			return;
 		}
 		
-		// 파일 업로드
 		String imagePath = null;
 		
 		if (file != null) {
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 			
-			// 기존 이미지 파일 제거 - 업로드가 실패할 수 있으므로 업로드가 성공한 후 제거
-			// imagePath가 null이 아니고(업로드 성공), 기존 글의 imagePath가 null이 아닐 경우
+			// 기존 이미지 삭제
 			if (imagePath != null && post.getImagePath() != null) {
 				fileManagerService.deleteFile(post.getImagePath());
 			}
@@ -67,7 +63,6 @@ public class PostBO {
 	
 	// 글 삭제
 	public int deletePostByPostIdUserId(int postId, int userId) {
-		// 기존 글
 		Post post = getPostByPostIdUserId(postId, userId);
 		
 		if (post == null) {
@@ -75,7 +70,7 @@ public class PostBO {
 			return 0;
 		}
 		
-		// 이미지 파일 제거
+		// 이미지 삭제
 		if (post.getImagePath() != null) {
 			fileManagerService.deleteFile(post.getImagePath());
 		}
@@ -85,24 +80,18 @@ public class PostBO {
 	
 	// userId 글 목록
 	public List<Post> getPostListByUserId(int userId, Integer prevId, Integer nextId) {
-		// ex) 7 6 5 페이지
-		// 1) 이전 : 7보다 큰 3개 ASC (8 9 10) => List reverse (10 9 8)
-		// 2) 다음 : 5보다 작은 3개 DESC (4 3 2)
-		// 3) 첫 페이지 (이전, 다음 없음) : DESC 3개
-		
-		String direction = null; // 방향
-		Integer standardId = null; // 기준 postId
+		String direction = null;
+		Integer standardId = null;
 		
 		if (prevId != null) {
-			// 이전
 			direction = "prev";
 			standardId = prevId;
 			
 			List<Post> postList = postDAO.selectPostListByUserId(userId, direction, standardId, POST_MAX_SIZE);
 			Collections.reverse(postList);
+			
 			return postList;
 		} else if (nextId != null) {
-			// 다음
 			direction = "next";
 			standardId = nextId;
 		}

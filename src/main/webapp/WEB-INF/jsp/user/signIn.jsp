@@ -49,8 +49,8 @@
 			let url = $(this).attr('action');
 			let params = $(this).serialize();
 			
-			$.post(url, params) // request
-			.done(function(data) { // response
+			$.post(url, params)
+			.done(function(data) {
 				if (data.code == 1) {
 					location.href = "/post/post_list_view";
 				} else {

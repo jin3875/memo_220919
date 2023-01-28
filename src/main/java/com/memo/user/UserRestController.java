@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,7 @@ public class UserRestController {
 	 * @param loginId
 	 * @return
 	 */
-	@RequestMapping("/is_duplicated_id")
+	@GetMapping("/is_duplicated_id")
 	public Map<String, Object> isDuplicatedId(
 			@RequestParam("loginId") String loginId
 	) {
@@ -74,7 +75,7 @@ public class UserRestController {
 	) {
 		Map<String, Object> result = new HashMap<>();
 		
-		// 비밀번호 해싱 (hashing) - md5
+		// 비밀번호 암호화
 		String hashedPassword = EncryptUtils.md5(password);
 		
 		// 유저 추가
@@ -96,15 +97,14 @@ public class UserRestController {
 	public Map<String, Object> signIn(
 			@RequestParam("loginId") String loginId,
 			@RequestParam("password") String password,
-//			HttpServletRequest request // 1)
-			HttpSession session // 2)
+			HttpSession session
 	) {
 		Map<String, Object> result = new HashMap<>();
 		
-		// 비밀번호 해싱
+		// 비밀번호 암호화
 		String hashedPassword = EncryptUtils.md5(password);
 		
-		// loginId와 password로 유저 select
+		// 유저 검색
 		User user = userBO.getUserByLoginIdPassword(loginId, hashedPassword);
 		
 		if (user != null) {
@@ -112,8 +112,6 @@ public class UserRestController {
 			result.put("code", 1);
 			result.put("result", "성공");
 			
-			// 세션에 유저 정보 담기 (로그인 상태 유지)
-//			HttpSession session = request.getSession(); // 1)
 			session.setAttribute("userId", user.getId());
 			session.setAttribute("userLoginId", user.getLoginId());
 			session.setAttribute("userName", user.getName());

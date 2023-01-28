@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@Component // 스프링 빈
+@Component
 public class PermissionInterceptor implements HandlerInterceptor {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -27,19 +27,19 @@ public class PermissionInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		// 비로그인 + /post -> 로그인 페이지 + return false
+		// 비로그인 + /post -> 로그인 페이지
 		if (userId == null && uri.startsWith("/post")) {
 			response.sendRedirect("/user/sign_in_view");
-			return false; // 컨트롤러 수행 X
+			return false;
 		}
 		
-		// 로그인 + /user -> 글 목록 페이지 + return false
+		// 로그인 + /user -> 글 목록 페이지
 		if (userId != null && uri.startsWith("/user")) {
 			response.sendRedirect("/post/post_list_view");
-			return false; // 컨트롤러 수행 X
+			return false;
 		}
 		
-		return true; // 컨트롤러 수행
+		return true;
 	}
 	
 	@Override

@@ -60,15 +60,17 @@
 			}
 			
 			$.ajax({
-				// type 생략 -> GET
-				url:"/user/is_duplicated_id"
+				type:"GET"
+				, url:"/user/is_duplicated_id"
 				, data:{"loginId":loginId}
 				
 				, success:function(data) {
 					if (data.code == 1) {
-						if (data.result) { // 중복
+						if (data.result) {
+							// 중복
 							$('#idCheckDuplicated').removeClass('d-none');
-						} else { // 사용 가능
+						} else {
+							// 사용 가능
 							$('#idCheckOk').removeClass('d-none');
 						}
 					} else {
@@ -121,17 +123,12 @@
 				return false;
 			}
 			
-			// 서버로 보내는 방법
-			// 1) submit
-			// $(this)[0].submit(); // 화면이 넘어간다
-			
-			// 2) ajax
 			let url = $(this).attr('action');
-			let params = $(this).serialize(); // form태그에 있는 name으로 파라미터들 구성
+			let params = $(this).serialize();
 			console.log(params);
 			
-			$.post(url, params) // request
-			.done(function(data) { // response
+			$.post(url, params)
+			.done(function(data) {
 				if (data.code == 1) {
 					alert("가입을 환영합니다! 로그인 해주세요");
 					location.href = "/user/sign_in_view";

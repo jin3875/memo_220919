@@ -40,7 +40,6 @@ public class UserController {
 	 */
 	@GetMapping("/sign_out")
 	public String signOut(HttpSession session) {
-		// 세션 모두 비우기
 		session.removeAttribute("userId");
 		session.removeAttribute("userLoginId");
 		session.removeAttribute("userName");
